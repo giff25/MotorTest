@@ -50,7 +50,7 @@ extern "C" {
 /* USER CODE END EM */
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-
+void increment_counter(uint8_t *counter, uint8_t button_state);
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -73,7 +73,9 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
-
+#define CW TIM_CHANNEL_1
+#define CCW TIM_CHANNEL_2
+#define PRESSED 0
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
