@@ -97,7 +97,7 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c
 
 
-CPP_SOURCES = \
+CXX_SOURCES = \
 
 
 # ASM sources
@@ -241,7 +241,7 @@ add_release_directory = $(sort $(addprefix $(RELEASE_DIRECTORY)/,$(addsuffix .$(
 
 
 OBJECTS = $(call add_release_directory,$(C_SOURCES),o)
-OBJECTS += $(call add_release_directory,$(CPP_SOURCES),o)
+OBJECTS += $(call add_release_directory,$(CXX_SOURCES),o)
 OBJECTS += $(call add_release_directory,$(ASM_SOURCES),o)
 vpath %.c $(sort $(dir $(C_SOURCES)))
 vpath %.cc $(sort $(dir $(CXX_SOURCES)))

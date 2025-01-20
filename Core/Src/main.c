@@ -96,36 +96,50 @@ int main(void)
   /* USER CODE BEGIN 2 */
   uint8_t button_state;
   uint8_t button_counter = 0;
-  uint8_t timeElapsed;
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-    
-    //if button pressed for longer than 2 seconds
-    //switch spin direction
-    while(button_state != 0){
-      button_state = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+    //*TODO* could potentially optimize with observer pattern, subscribed to button interrupt
+    //
+
+    button_state = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+
+    increment_counter(&button_counter, button_state);
+
+
+    //use one out
+    if (button_counter == 0) { 
+      HAL_TIM_PWM_Stop(&htim2, CCW);
+      HAL_TIM_PWM_Start(&htim2, CW); 
     }
-    SysTick
-    //if counter == max value
-    //then reset at 0
+    else { 
+      HAL_TIM_PWM_Stop(&htim2, CW);
+      HAL_TIM_PWM_Start(&htim2, CCW); 
+    }
+    
+    //switch to other pin on button press
+    
+    
 
   }
   /* USER CODE END 3 */
 }
 
 /**
- * @brief Button Press Elapsed Time
- * 
+ * @brief increment button counter with a max value == 2
+ * @param counter is a pointer to counter used in main loop
+ * @param button_state variable containing user button state
+ * @retval None
+ *
  */
-void Time_ButtonPress(void){
-  SysTick
+void increment_counter(uint8_t *counter, uint8_t button_state){
+  if (button_state == PRESSED && *counter % 2 == 0) { *counter = 0; }
+  if (button_state == PRESSED && *counter % 2 != 0) { (*counter)++; }
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -218,7 +232,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 50000;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
