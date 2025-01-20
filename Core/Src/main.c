@@ -53,6 +53,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
+void increment_counter(uint8_t *counter, uint8_t button_state);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -93,6 +94,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_TIM2_Init();
+  HAL_TIM_PWM_Init(&htim2);
   /* USER CODE BEGIN 2 */
   uint8_t button_state;
   uint8_t button_counter = 0;
@@ -113,12 +115,12 @@ int main(void)
 
     //use one out
     if (button_counter == 0) { 
-      HAL_TIM_PWM_Stop(&htim2, CCW);
+      //HAL_TIM_PWM_Stop(&htim2, CCW);
       HAL_TIM_PWM_Start(&htim2, CW); 
     }
     else { 
       HAL_TIM_PWM_Stop(&htim2, CW);
-      HAL_TIM_PWM_Start(&htim2, CCW); 
+      HAL_TIM_PWM_Start(&htim2, CCW);
     }
     
     //switch to other pin on button press
@@ -140,6 +142,7 @@ void increment_counter(uint8_t *counter, uint8_t button_state){
   if (button_state == PRESSED && *counter % 2 == 0) { *counter = 0; }
   if (button_state == PRESSED && *counter % 2 != 0) { (*counter)++; }
 }
+
 /**
   * @brief System Clock Configuration
   * @retval None

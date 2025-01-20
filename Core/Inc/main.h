@@ -28,7 +28,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -50,7 +49,6 @@ extern "C" {
 /* USER CODE END EM */
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-void increment_counter(uint8_t *counter, uint8_t button_state);
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
