@@ -112,7 +112,7 @@ int main(void)
     
 
     if (button_state == PRESSED){
-      counter_manager(&button_counter);
+      (button_counter == 1) ? button_counter++ : button_counter--;
     }
 
     //use one out
@@ -131,10 +131,6 @@ int main(void)
 
   }
   /* USER CODE END 3 */
-}
-void counter_manager(uint8_t *counter){
-  if((*counter) == 1) { (*counter)++; }
-  else { (*counter)--; }
 }
 
 /**
