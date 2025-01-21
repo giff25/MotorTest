@@ -53,7 +53,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
-void increment_counter(uint8_t *counter, uint8_t button_state);
+void counter_manager(uint8_t *counter);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -97,7 +97,7 @@ int main(void)
   HAL_TIM_PWM_Init(&htim2);
   /* USER CODE BEGIN 2 */
   uint8_t button_state;
-  uint8_t button_counter = 0;
+  uint8_t button_counter = 1;
   
   /* USER CODE END 2 */
 
@@ -109,12 +109,14 @@ int main(void)
     //
 
     button_state = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+    
 
-    increment_counter(&button_counter, button_state);
-
+    if (button_state == PRESSED){
+      counter_manager(&button_counter);
+    }
 
     //use one out
-    if (button_counter == 0) { 
+    if (button_counter == 1) { 
       HAL_TIM_PWM_Stop(&htim2, CCW);
       HAL_TIM_PWM_Start(&htim2, CW); 
     }
@@ -130,17 +132,9 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
-
-/**
- * @brief increment button counter with a max value == 2
- * @param counter is a pointer to counter used in main loop
- * @param button_state variable containing user button state
- * @retval None
- *
- */
-void increment_counter(uint8_t *counter, uint8_t button_state){
-  if (button_state == PRESSED && *counter % 2 == 0) { *counter = 0; }
-  if (button_state == PRESSED && *counter % 2 != 0) { (*counter)++; }
+void counter_manager(uint8_t *counter){
+  if((*counter) == 1) { (*counter)++; }
+  else { (*counter)--; }
 }
 
 /**
