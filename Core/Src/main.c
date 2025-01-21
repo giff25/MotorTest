@@ -115,7 +115,7 @@ int main(void)
 
     //use one out
     if (button_counter == 0) { 
-      //HAL_TIM_PWM_Stop(&htim2, CCW);
+      HAL_TIM_PWM_Stop(&htim2, CCW);
       HAL_TIM_PWM_Start(&htim2, CW); 
     }
     else { 
